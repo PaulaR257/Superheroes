@@ -18,6 +18,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -103,13 +104,23 @@ fun HeroTopAppBar(modifier: Modifier = Modifier){
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeroAppContent() {
-    Column {
-        HeroTopAppBar()
-        HeroList()
-    }
+        Scaffold(
+            topBar = { HeroTopAppBar() }
+        ) { contentPadding ->
+            LazyColumn(contentPadding = contentPadding) {
+                items(HeroesRepository.heroes) { hero ->
+                    HeroCard(
+                        hero = hero,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
+            }
+        }
 }
+
 @Preview
 @Composable
 fun HeroListPreview() {
